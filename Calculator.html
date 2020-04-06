@@ -33,56 +33,54 @@
   </head>
   <body>
     <div class="container d-flex justify-content-center">
-        <div class="row">  
-            <div class="show">
-                <label class="" id="second">0</label>
-            </div>
-            <div class="element">
-                <input type="text" class="d-flex mx-auto d-block mt-5" id="inputNum" name="inputBlock">
+        <div class="row">
+            <div class="element bg-dark">
+                <input type="text" class="d-flex mx-auto d-block mt-3" id="inputNum" name="inputBlock">
                 <div class="btns mt-3">
                     <div class="group">
                         <button type="button" class="btn-black-50 text-align-center " id="allClear" onclick="clearAll()">AC</button>
                         <button type="button" class="btn-black-50" onclick="back()">C</button>
                         <button type="button" class="btn-black-50" onclick="percent()">%</button>
-                        <button type="button" class="btn-warning text-white operators">÷</button>
+                        <button type="button" class="btn-warning text-white ops" onclick="operator()" id="exp">÷</button>
                     </div>
                     <div class="group">
                         <button type="button" class="btn-secondary btnNum">7</button>
                         <button type="button" class="btn-secondary btnNum">8</button>
                         <button type="button" class="btn-secondary btnNum">9</button>
-                        <button type="button" class="btn-warning text-white operators">×</button>
+                        <button type="button" class="btn-warning text-white ops" onclick="operator()" id="mult">×</button>
                     </div>
                     <div class="group">
                         <button type="button" class="btn-secondary btnNum">4</button>
                         <button type="button" class="btn-secondary btnNum">5</button>
                         <button type="button" class="btn-secondary btnNum">6</button>
-                        <button type="button" class="btn-warning text-white operators">-</button>
+                        <button type="button" class="btn-warning text-white ops" onclick="operator()" id="sub">-</button>
                     </div>
                     <div class="group">
                         <button type="button" class="btn-secondary btnNum">1</button>
                         <button type="button" class="btn-secondary btnNum">2</button>
                         <button type="button" class="btn-secondary btnNum">3</button>
-                        <button type="button" class="btn-warning text-white operators">+</button>
+                        <button type="button" class="btn-warning text-white ops" onclick="operator()" id="add">+</button>
                     </div>
                     <div class="group">
                         <button class=" btn-secondary btnNum" id="Zero" style="width: 88px;">0</button>                         
                         <button class=" btn-secondary">.</button>
-                        <button class=" btn-warning text-white" onclick="equral()">=</button>
+                        <button class=" btn-warning text-white" id="equo" onclick="operator()">=</button>
                     </div>
                 </div>
             </div>            
         </div>
     </div>
     <script>
-        // var btnNum = document.getElementsByClassName('btnNum');
         var btnNum = document.querySelectorAll('.btnNum');
         var input = document.getElementById('inputNum');
-        var operator = document.querySelectorAll('.operators');
-        var lab = 0;
-        var labTxt='';
-        var result = 0;
+        var operation = false; //一開始沒點false
+        var op =document.querySelectorAll('.ops');//每一個運算子
+        var ops;
+        var firstNum;
+        var secondNum;
+        //讀取按鈕值0~9
         btnNum.forEach(element => {
-            element.addEventListener('click',inputNumbers);
+            element.addEventListener('click', inputNumbers);
         });
         function inputNumbers(){
             if(input.value == '' && this.innerHTML == 0){
@@ -93,9 +91,11 @@
                 input.value +=this.innerHTML;
             }            
         }
+        //清除全部
         function clearAll(){
             input.value = null;
         }
+        //清除倒數第一個...
         function back(){
             input.value = input.value.substring(0, input.value.length-1);
         }
@@ -106,12 +106,30 @@
             else{
                 input.value=parseFloat(input.value)/100;
             }
+        } 
+        //點到 運算子 第二個數字要出現 點equal要運算並有答案
+        op.forEach(item =>{
+            item.addEventListener('click',calc)
+            operation = true;
+        })
+        function calc(){
+
         }
-        function equral(){
-            // let a = (input.value.substring(0,input.length-1));
-            // let b = (input.value)
-         
-        }
+
+        function operator(){
+            console.log(input);
+            firstNum = input.value;
+
+            if (operation == true){
+                secondNum = input.value;
+            }
+            if (op == '+'){
+                
+            }
+            
+            input.value = 'ans:'+firstNum+secondNum;
+        }       
+       
     </script>
 
     <!-- Optional JavaScript -->
