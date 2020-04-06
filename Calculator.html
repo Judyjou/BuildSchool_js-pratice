@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>calculator</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        button{
+            width: 40px;
+            height: 40px;
+            box-sizing: border-box;
+            margin: 2px;
+            border-radius: 50px;
+            border: none;
+        }       
+        input{
+            width: 180px;
+            border: solid 2px;
+            padding-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container d-flex justify-content-center">
+        <div class="row">  
+            <div class="show">
+                <label class="" id="second">0</label>
+            </div>
+            <div class="element">
+                <input type="text" class="d-flex mx-auto d-block mt-5" id="inputNum" name="inputBlock">
+                <div class="btns mt-3">
+                    <div class="group">
+                        <button type="button" class="btn-black-50 text-align-center " id="allClear" onclick="clearAll()">AC</button>
+                        <button type="button" class="btn-black-50" onclick="back()">C</button>
+                        <button type="button" class="btn-black-50" onclick="percent()">%</button>
+                        <button type="button" class="btn-warning text-white operators">÷</button>
+                    </div>
+                    <div class="group">
+                        <button type="button" class="btn-secondary btnNum">7</button>
+                        <button type="button" class="btn-secondary btnNum">8</button>
+                        <button type="button" class="btn-secondary btnNum">9</button>
+                        <button type="button" class="btn-warning text-white operators">×</button>
+                    </div>
+                    <div class="group">
+                        <button type="button" class="btn-secondary btnNum">4</button>
+                        <button type="button" class="btn-secondary btnNum">5</button>
+                        <button type="button" class="btn-secondary btnNum">6</button>
+                        <button type="button" class="btn-warning text-white operators">-</button>
+                    </div>
+                    <div class="group">
+                        <button type="button" class="btn-secondary btnNum">1</button>
+                        <button type="button" class="btn-secondary btnNum">2</button>
+                        <button type="button" class="btn-secondary btnNum">3</button>
+                        <button type="button" class="btn-warning text-white operators">+</button>
+                    </div>
+                    <div class="group">
+                        <button class=" btn-secondary btnNum" id="Zero" style="width: 88px;">0</button>                         
+                        <button class=" btn-secondary">.</button>
+                        <button class=" btn-warning text-white" onclick="equral()">=</button>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <script>
+        // var btnNum = document.getElementsByClassName('btnNum');
+        var btnNum = document.querySelectorAll('.btnNum');
+        var input = document.getElementById('inputNum');
+        var operator = document.querySelectorAll('.operators');
+        var lab = 0;
+        var labTxt='';
+        var result = 0;
+        btnNum.forEach(element => {
+            element.addEventListener('click',inputNumbers);
+        });
+        function inputNumbers(){
+            if(input.value == '' && this.innerHTML == 0){
+                input.value='';
+            }
+            else
+            {
+                input.value +=this.innerHTML;
+            }            
+        }
+        function clearAll(){
+            input.value = null;
+        }
+        function back(){
+            input.value = input.value.substring(0, input.value.length-1);
+        }
+        function percent(){
+            if(input.value == 0){
+                input.value ='';
+            }
+            else{
+                input.value=parseFloat(input.value)/100;
+            }
+        }
+        function equral(){
+            // let a = (input.value.substring(0,input.length-1));
+            // let b = (input.value)
+         
+        }
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

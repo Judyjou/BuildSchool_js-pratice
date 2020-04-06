@@ -65,6 +65,10 @@
         function getRandomInt() {
             ranNum = Math.floor(Math.random() * 100); //Math.floor取整數
             console.log(ranNum); //將數值給回ranNum  當已產生亂數時按鈕可以按
+            promptBlock.innerHTML='0~100';
+            input.value='';
+            max_number=100;
+            min_number=0;
             for (let btns of button) {
                 btns.removeAttribute('disabled');
             }
