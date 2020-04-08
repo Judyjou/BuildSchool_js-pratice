@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container d-flex justify-content-center">
+        <div class="row">
+            <button class="iphonBtn">iphon</button>
+            <button class="ipadBtn">ipad</button>
+            <button class="MacBtn">Mac</button>
+        </div>
+    </div>
+
+    <script>
+        var products = {
+            iphone: {
+                detail: { iphoneName='iphone8', basepicUrl:'./pic/baseXR.PNG' },
+                outerLook: [{ color: '白色', colorValue: '#fff', picUrl: './pic/W-XR.PNG' },
+                { color: '黑色', colorValue: '#000', picUrl: './pic/B-XR.PNG' },
+                { color: '水藍色', colorValue: '#00BBFF', picUrl: './pic/LB-XR.PNG' },
+                { color: '珊瑚紅色', colorValue: '#FF5511', picUrl: './pic/LR-XR.PNG' },
+                { color: '紅色', colorValue: '#AA0000', picUrl: './pic/R-XR.PNG' }],
+                space:{storge:[{size:'64 GB' ,pri:21500},{size:'128 GB',pri:23500}]
+            },
+            ipad: {
+                detail:{ ipadName='ipad', basepicUrl:'./pic/base-min.PNG'},outerLook:[{colorValue:''}]
+                },
+            Mac: {}
+        }
+    </script>
+</body>
+
+</html>

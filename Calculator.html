@@ -1,141 +1,191 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <title>calculator</title>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
             list-style: none;
         }
-        button{
+
+        button {
             width: 40px;
             height: 40px;
             box-sizing: border-box;
             margin: 2px;
             border-radius: 50px;
             border: none;
-        }       
-        input{
+        }
+
+        input {
             width: 180px;
             border: solid 2px;
             padding-top: 10px;
             font-size: 16px;
         }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="container d-flex justify-content-center">
         <div class="row">
             <div class="element bg-dark">
                 <input type="text" class="d-flex mx-auto d-block mt-3" id="inputNum" name="inputBlock">
                 <div class="btns mt-3">
                     <div class="group">
-                        <button type="button" class="btn-black-50 text-align-center " id="allClear" onclick="clearAll()">AC</button>
+                        <button type="button" class="btn-black-50 text-align-center " id="allClear"
+                            onclick="clearAll()">AC</button>
                         <button type="button" class="btn-black-50" onclick="back()">C</button>
                         <button type="button" class="btn-black-50" onclick="percent()">%</button>
-                        <button type="button" class="btn-warning text-white ops" onclick="operator()" id="exp">÷</button>
+                        <button type="button" class="btn-warning text-white ops" onclick="operator()"
+                            id="exp">÷</button>
                     </div>
                     <div class="group">
                         <button type="button" class="btn-secondary btnNum">7</button>
                         <button type="button" class="btn-secondary btnNum">8</button>
                         <button type="button" class="btn-secondary btnNum">9</button>
-                        <button type="button" class="btn-warning text-white ops" onclick="operator()" id="mult">×</button>
+                        <button type="button" class="btn-warning text-white ops" onclick="operator()"
+                            id="mult">×</button>
                     </div>
                     <div class="group">
                         <button type="button" class="btn-secondary btnNum">4</button>
                         <button type="button" class="btn-secondary btnNum">5</button>
                         <button type="button" class="btn-secondary btnNum">6</button>
-                        <button type="button" class="btn-warning text-white ops" onclick="operator()" id="sub">-</button>
+                        <button type="button" class="btn-warning text-white ops" onclick="operator()"
+                            id="sub">-</button>
                     </div>
                     <div class="group">
                         <button type="button" class="btn-secondary btnNum">1</button>
                         <button type="button" class="btn-secondary btnNum">2</button>
                         <button type="button" class="btn-secondary btnNum">3</button>
-                        <button type="button" class="btn-warning text-white ops" onclick="operator()" id="add">+</button>
+                        <button type="button" class="btn-warning text-white ops" onclick="operator()"
+                            id="add">+</button>
                     </div>
                     <div class="group">
-                        <button class=" btn-secondary btnNum" id="Zero" style="width: 88px;">0</button>                         
-                        <button class=" btn-secondary">.</button>
+                        <button class=" btn-secondary btnNum" id="Zero" style="width: 88px;">0</button>
+                        <button class=" btn-secondary" id="dot">.</button>
                         <button class=" btn-warning text-white" id="equo" onclick="operator()">=</button>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
     <script>
         var btnNum = document.querySelectorAll('.btnNum');
         var input = document.getElementById('inputNum');
-        var operation = false; //一開始沒點false
-        var op =document.querySelectorAll('.ops');//每一個運算子
-        var ops;
+        var op = document.querySelectorAll('.ops');//每一個運算子
+        input.value = '';
+        var click_op = '';
         var firstNum;
         var secondNum;
+        var dot = document.getElementById('dot');
+        var dotClick= false;
         //讀取按鈕值0~9
+        dot.addEventListener('click',inputdot);
+        function inputdot(){            
+            if(dotClick == false){
+                dotClick = true;
+                input.value = input.value+'.';
+            }
+        }
         btnNum.forEach(element => {
             element.addEventListener('click', inputNumbers);
         });
-        function inputNumbers(){
-            if(input.value == '' && this.innerHTML == 0){
-                input.value='';
-            }
-            else
-            {
-                input.value +=this.innerHTML;
-            }            
-        }
-        //清除全部
-        function clearAll(){
-            input.value = null;
-        }
-        //清除倒數第一個...
-        function back(){
-            input.value = input.value.substring(0, input.value.length-1);
-        }
-        function percent(){
-            if(input.value == 0){
-                input.value ='';
-            }
-            else{
-                input.value=parseFloat(input.value)/100;
-            }
-        } 
-        //點到 運算子 第二個數字要出現 點equal要運算並有答案
-        op.forEach(item =>{
-            item.addEventListener('click',calc)
-            operation = true;
-        })
-        function calc(){
 
+        function inputNumbers() {
+            if (input.value == '' && this.innerHTML == 0) {
+                input.value = '';
+            }
+            else {
+                input.value += this.innerHTML;
+            }
         }
 
-        function operator(){
-            console.log(input);
-            firstNum = input.value;
+        function clearAll() {
+            input.value = '';  
+            click_op = ''; 
+            dotClick = false;         
+        }
+        function back() {
+            input.value = input.value.substring(0, input.value.length - 1);
+        }
+        function percent() {
+            if (input.value == 0) {
+                input.value = '';
+            }
+            else {
+                input.value = parseFloat(input.value) / 100;
+            }
+        }
+        function operator(happen) {
+            dotClick = false;
+            var clickedOperator = event.target;
+            oprt = clickedOperator.innerHTML;
+            // console.log(input);
+            // console.log(oprt);
+            if (click_op == '') {
+                firstNum = parseFloat(input.value);
+                click_op = oprt;
+                input.value = '';
+                console.log(firstNum);
+                console.log(click_op);
+            }
+            else {
+                secondNum = parseFloat(input.value);                
+                console.log(secondNum);
+                switch (click_op) {
+                    case '+':
+                        firstNum = firstNum + secondNum;
+                        click_op = oprt;
+                        input.value = '';
+                        break;
 
-            if (operation == true){
-                secondNum = input.value;
+                    case '-':
+                        firstNum = firstNum - secondNum;
+                        click_op = oprt;
+                        input.value = '';
+                        break;
+                    case '×':
+                        firstNum = firstNum * secondNum;
+                        click_op = oprt;
+                        input.value = '';
+                        break;
+
+                    case '÷':
+                        firstNum = firstNum / secondNum;
+                        click_op = oprt;
+                        input.value = '';
+                        break;
+                }
             }
-            if (op == '+'){
-                
+
+            if (oprt == '=') {
+                input.value = firstNum;                
             }
-            
-            input.value = 'ans:'+firstNum+secondNum;
-        }       
-       
+        }
     </script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </body>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
 </html>
