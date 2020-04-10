@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script>
+
+
+        var map;
+        function initMap() {
+            // The location of Uluru
+            var chu = { lat: 24.757227, lng: 120.952295 };
+            var markers_other;
+            $.ajax({
+                type: 'Get',
+                url: 'https://maskmap.azurewebsites.net/api/mask/getmaskstock',
+                dataType: 'json',
+                success: function (response) {
+                    let lattitude = [];
+                    let longitude = [];
+                    // lattitude = response.features[0].geometry.coordinates[0];
+                    for (var i = 0; i < response.features.length; i++) {
+                        lattitude[i] = response.features[i].geometry.coordinates[1];//小
+                        longitude[i] = response.features[i].geometry.coordinates[0];
+
+                        if (response.features[i].properties.masksLeft || response.features[i].properties.masksLeftchildMasksLeft == 0) {
+                            markers_other = new google.maps.Marker({
+                                position: { lat: lattitude[i], lng: longitude[i] }, map: map,
+                                icon:{
+                                    url:'X.png',
+                                    scaledSize: new google.maps.Size(30, 30)
+                                }
+                            });
+                        }
+                        else{
+                            markers_other = new google.maps.Marker({
+                                position: { lat: lattitude[i], lng: longitude[i] }, map: map,
+                                icon:{
+                                    url:'masks.png',
+                                    scaledSize: new google.maps.Size(60, 50)
+                                }
+                            });
+                        }
+
+
+
+                        // console.log(lattitude[i]); //緯
+                        // console.log(longitude[i]);
+
+                    }
+                    console.log(response);
+
+                },
+                error: function (response) {
+                    console.log(error);
+                }
+            })
+            // The map, centered at Uluru
+            var map = new google.maps.Map(
+                document.getElementById('map'), { zoom: 15, center: chu });
+            // The marker, positioned at Uluru
+            var marker = new google.maps.Marker({ position: chu, map: map });
+
+        }
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlKWP4uWjQIR3WDAWLAu6rUhBfc3_ppag&callback=initMap"
+        async defer></script>
+</body>
+
+</html>

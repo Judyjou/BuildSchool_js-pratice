@@ -28,7 +28,8 @@
         function addThead(titleArray){
            let _tr = document.createElement('tr');            
            for (let i of titleArray){
-            let _th = document.createElement('th');  
+            let _th = document.createElement('th');
+              
             _th.innerText = i;
             _tr.appendChild(_th);
            }
@@ -52,6 +53,7 @@
                 return a[key] - b[key];
             });
         }
+        
         
         let ipads = '';
         window.onload = (function(){
