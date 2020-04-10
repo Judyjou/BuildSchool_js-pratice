@@ -1,45 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apple</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-    </style>
-</head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-<body>
-    <div class="container d-flex justify-content-center">
-        <div class="row">
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row mb-3 d-flex justify-content-center ">
             <button class="iphonBtn">iphon</button>
             <button class="ipadBtn">ipad</button>
             <button class="MacBtn">Mac</button>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <img id="product-pic" src="" class="img-fluid" alt="">
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         var products = {
             iphone: {
-                detail: { iphoneName='iphone8', basepicUrl:'./pic/baseXR.PNG' },
+                detail: { iphoneName='iphone8', basepicUrl: './pic/baseXR.PNG' },
                 outerLook: [{ color: '白色', colorValue: '#fff', picUrl: './pic/W-XR.PNG' },
                 { color: '黑色', colorValue: '#000', picUrl: './pic/B-XR.PNG' },
                 { color: '水藍色', colorValue: '#00BBFF', picUrl: './pic/LB-XR.PNG' },
                 { color: '珊瑚紅色', colorValue: '#FF5511', picUrl: './pic/LR-XR.PNG' },
                 { color: '紅色', colorValue: '#AA0000', picUrl: './pic/R-XR.PNG' }],
-                space:{storge:[{size:'64 GB' ,pri:21500},{size:'128 GB',pri:23500}]
+                space: { storge: [{ size: '64 GB', pri: 21500 }, { size: '128 GB', pri: 23500 }] }
             },
             ipad: {
-                detail:{ ipadName='ipad', basepicUrl:'./pic/base-min.PNG'},outerLook:[{colorValue:''}]
-                },
-            Mac: {}
+                detail: { ipadName='ipad', basepicUrl: './pic/base-min.PNG' },
+                outerLook: [{ color: '太空灰', colorValue: '#eee', picUrl: './pic/G-mini.PNG' },
+                { color: '白色', colorValue: '#fff', picUrl: './pic/W-mini.PNG' },
+                { color: '金色', colorValue: '#FFEE99', picUrl: './pic/G-mini.PNG' }],
+                space: { storge: [{ size: '64 GB', pir: 12900 }, { size: '256 GB', pir: 17900 }] }
+            },
+            Mac: {
+                detail: { MacName = 'Mac-pro', basepicUrl: './pic/baseMac.PNG' },
+                outerLook: [{ color: '太空灰色', colorValue: '#bbb', picUrl: './pic/G-mac.PNG' },
+                { color: '銀色', colorValue: '#eee', picUrl: './pic/S-mac.PNG' }],
+                space: { storge: [{ size: '256 GB', pir: 48900 }, { size: '512 GB', pir: 54900 }, { size: '1 TB', pir: 60900 }, { size: '2 TB', pir: 72900 }] }
+            }
         }
     </script>
-</body>
+    
 
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
 </html>
