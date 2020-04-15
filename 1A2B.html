@@ -1,23 +1,163 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>1A2B</title>
-  </head>
-  <body>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <title>1A2B</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+    }
+
+    span {
+      margin-right: 10px;
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-6 col-12">
+        <div class="btn-group btn-group-justified w-100">
+          <button id='start' type='button' class="btn btn-default btn-light" onclick="Start()">開始</button>
+          <button id='restart' type='button' class="btn btn-default btn-light other"
+            onclick="RestartGame()">放棄重來</button>
+          <button id='showAns' type='button' class="btn btn-default btn-light other" onclick="ShowAns()">看答案</button>
+        </div>
+        <div class="input-group col-12 ">
+          <span class="input-group-addon input-group-text">猜答案:</span>
+          <input type="text" id="inputNum" class="form-control" maxlength="4">
+          <div class="input-group-btn">
+            <button class="btn btn-outline-secondary other" type="button" onclick="Guess()">猜</button>
+          </div>
+        </div>
+        <div class="text">
+          <ul></ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <script>
+    var ul = document.createElement('ul');
+    var other = document.getElementsByClassName('other');
+    var starts = document.getElementById('start');
+    var input = document.getElementById('inputNum');
     
-    
+    var ansArray = [];
+    var randomArray = [];
+    for (let btns of other) {
+      btns.setAttribute('disabled', 'disabled');
+    }
+    //start
+    function Start() {
+      alert('Game Start');
+      for (let btns of other) {
+        btns.removeAttribute('disabled');
+      }
+      ansArray = '';
+      for (let i = 0; i < 4; i++) {
+        randomArray[i] = Math.floor(Math.random() * 10);
+        for (let j = 0; j < i; j++) {
+          while (randomArray[j] == randomArray[i]) {
+            j = 0;
+            randomArray[i] = Math.floor(Math.random() * 10);
+          }
+        }
+        ansArray = ansArray + randomArray[i];
+      }
+    }
+    //Restart
+    function RestartGame() {
+      alert('The Answer is:' + ansArray);
+      ul.innerHTML = '';
+      input.value = '';
+      for (let btns of other){
+        btns.setAttribute('disabled','disabled');
+      }
+    }
+    //Ans
+    function ShowAns(){
+      alert('Answer is '+ ansArray);
+    }
+    //Guess
+    function Guess(){
+      let countof_A = 0;
+      let countof_B = 0;
+      inputNum = Array.from(input.value);
+      ansNum = Array.from(ansArray);
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </body>
+      if (inputNum.length < 4 || inputNum.length > 4){
+        alert('Error!!');
+      }
+      let result = inputNum.filter((e) =>{
+        return ansNum.indexOf(e) > -1
+      })
+      
+      for (let i =0 ;i<ansNum.length;i++){
+        if(inputNum[i]==ansNum[i]){
+          countof_A++;
+          console.log(countof_A)
+        }
+      }
+      countof_B = parseInt(result.length - countof_A);
+      console.log(countof_B);
+
+      //產過程
+      var li = document.createElement('li');
+      var span = document.createElement('span');     
+      var spans = document.createElement('span');     
+      var guessPart = document.getElementsByClassName('text')[0];
+      
+      
+      span.innerText = `${countof_A} A ${countof_B} B`;
+      spans.innerText = `${''} ${input.value} `;
+      li.appendChild(span);
+      li.appendChild(spans);
+      guessPart.appendChild(li);
+
+      span.classList.add('backcolor');
+      if (countof_A == 4){
+        span.classList.add('bg-success','text-white');
+        alert(`BINGO!! ANS:${input.value}`);
+      }else{
+        span.classList.add('bg-secondary','text-white');
+      }
+
+    }
+
+  </script>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>
