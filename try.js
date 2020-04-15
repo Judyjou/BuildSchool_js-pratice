@@ -1,4 +1,4 @@
-let array = [2,5,3,1,4];
+/* let array = [2,5,3,1,4];
 array.sort(function(a,b){
     return a-b;
 });
@@ -19,4 +19,9 @@ object.sort(function(a,b){
     }
     // return a.name-b.name;
 });
-console.log(object);
+console.log(object); */
+
+var nums = [1,2,3,4,5,3,2,5,1];
+function check(nums){
+    // return nums >
+// }

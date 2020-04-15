@@ -106,10 +106,23 @@
       let countof_B = 0;
       inputNum = Array.from(input.value);
       ansNum = Array.from(ansArray);
+      let unique =[];
+      unique = inputNum.filter(function(item, index){
+          return inputNum.indexOf(item) === index;  //index值 跟 []的值是否相同 相同則放到unique[]中
+      });
+      
+      if(unique.length < 4)
+      {
+        alert('Repeat!!');
+        return;
+      }
 
       if (inputNum.length < 4 || inputNum.length > 4){
         alert('Error!!');
+        return;
       }
+
+
       let result = inputNum.filter((e) =>{
         return ansNum.indexOf(e) > -1
       })
@@ -117,11 +130,11 @@
       for (let i =0 ;i<ansNum.length;i++){
         if(inputNum[i]==ansNum[i]){
           countof_A++;
-          console.log(countof_A)
+          // console.log(countof_A)
         }
       }
       countof_B = parseInt(result.length - countof_A);
-      console.log(countof_B);
+      // console.log(countof_B);
 
       //產過程
       var li = document.createElement('li');
