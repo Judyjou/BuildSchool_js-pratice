@@ -20,7 +20,22 @@
             list-style: none;
         }
         body{
-            background-color: #787D7B;
+            background-color: #0F2540;
+            text-align: center; 
+        }
+        
+        h1{
+            color: #ccc;
+        }
+        div{
+            margin-top: 40px;
+        }
+        h5{
+            color: #fff;
+                       
+        }
+        h5:hover{
+            color: #9F353A;
         }
     </style>
 </head>
@@ -38,7 +53,7 @@
         <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="roleName">More Info</h5>
+            <h4 class="modal-title" id="roleName">More Info</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -63,19 +78,21 @@
              success:function(response){
                 let _row = document.getElementById('everyRow');                
                 for (let role = 0; role<response.length; role++){
-                    let _span = document.createElement('span');
-                    _span.classList.add('col-4', 'col-md-2');
+                    let _div = document.createElement('div');
+
+                    // let _span = document.createElement('span');
+                    _div.classList.add('col-4', 'col-md-2');
 
                     let _h5 = document.createElement('h5');
                     _h5.textContent = response[role].name;
-                    _span.appendChild(_h5);
-                    
+                    _div.appendChild(_h5);
+                    // _div.appendChild(_span);
                     // _everyone.textContent = response[role].name;
                     for (let pics in response[role]){
                         if (pics == 'icon'){
                             let _img = document.createElement('img');
                             _img.src=response[role]['icon'];
-                            _span.appendChild(_img);
+                            _div.appendChild(_img);
                             _img.addEventListener('click',showInfo);
                             function showInfo(){
                                 console.log('Hello')
@@ -92,7 +109,7 @@
                             }
                         }
                     }
-                    _row.appendChild(_span);
+                    _row.appendChild(_div);
                     // console.log(role);
                 }
                 // console.log(response);
