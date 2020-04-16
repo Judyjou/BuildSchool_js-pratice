@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Address</title>
+</head>
+<!-- class="d-flex mx-auto" -->
+<body>
+    <h3 >Taiwan Address / Zip Code</h3>
+    <div id="msg">
+        <template id="tempaleTitle">
+            <tr>
+                <th>縣市</th>
+                <th>區域</th>
+                <th>郵遞區號</th>
+            </tr>            
+        </template>
+        <template  id="tempaleRow">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>            
+        </template>
+
+    </div>
+    <script>
+        let _body = document.getElementsByTagName('body')[0];
+        let _table = document.createElement('table');
+        let _thead = document.createElement('thead');
+        let _tbody = document.createElement('tbody');
+        _table.appendChild(_thead);
+        _table.appendChild(_tbody);
+        _body.appendChild(_table);
+        _table.setAttribute("border", "2");
+        _body.classList.add('d-flex','justify-content-center','w-100');
+        // _table.addL
+        // let _tr = document.createElement('tr');
+        // let _td = document.createElement('td');
+        function addHead(){
+            let title = document.getElementById('tempaleTitle');
+            _thead.appendChild(title.content);
+        }
+
+        function addbody(rowArray){
+            let row = document.getElementById('tempaleRow');
+            for (let i=0 ; i<rowArray[1].length ; i++){
+                let cloneContent = row.content.cloneNode(true);
+                let tds = cloneContent.querySelectorAll('td');
+                tds[0].textContent = rowArray[0];
+                tds[1].textContent = rowArray[1][i].Districrs;
+                tds[2].textContent = rowArray[1][i].ZipCode;
+                _tbody.appendChild(cloneContent);
+            }
+        }
+
+        let zipCodeArray='';
+        let msg = document.getElementById('msg');
+        window.onload = function () {
+            let xhr = new XMLHttpRequest;
+            xhr.onload = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    zipCodeArray = JSON.parse(this.responseText);
+                    let ZipCode = [];
+                    zipCodeArray.forEach((element) => {
+                        let _city = element.CityName;
+                        let _districts = [];
+                        element.AreaList.forEach((element, index) => {
+                            _districts.push({ Districrs: element.AreaName, ZipCode: element.ZipCode })
+                        });
+                        let _cityObject = { City: _city, Districts: _districts };
+                        ZipCode.push(_cityObject);
+                    });
+                    addHead(ZipCode);
+                    ZipCode.forEach(ele=>{
+                        addbody(Object.values(ele));
+                    });
+                } else {
+                    msg.textContent = '發生錯誤 , HTTP response代碼:' + xhr.status;
+                }
+            }
+            // xhr.open("GET", "https://raw.githubusercontent.com/Judyjou/js/master/fileStorge/TaiwanAddress.json");
+            xhr.open("GET", "http://127.0.0.1:5501/TaiwanAddress/TaiwanAddress.json");
+            xhr.send();
+        }
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

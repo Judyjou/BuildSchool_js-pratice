@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <title>Hello, world!</title>
+    <script src="../AjaxExamplesLite-master/Examples/Modules/Myhelper.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+    <select name="cities" id="cities">
+    </select>
+    <select name="district" id="district">
+    </select>
+    <!-- <button onclick="submitData()">sunmit提交資料</button> -->
+    <div id="msg"></div>
+    <script>
+        let zipcodeArray = [];
+        let citySelect = $g("#cities");
+        let districtSelect = $g("#district");
+        function GetAddressJSON() {
+            fetch("https://raw.githubusercontent.com/Judyjou/js/master/fileStorge/TaiwanAddress.json")
+                .then(response => response.text())
+                .then(text => {
+                    zipcodeArray = JSON.parse(text);
+                    zipcodeArray.forEach((item, index) => {
+                        let option1 = $c('option');
+                        option1.value = index;
+                        option1.text = zipcodeArray[index].City;
+                        citySelect.add(option1, null);
+                    });
+                    let option2 = $c('option');
+                    option2.value = -1;
+                    option2.text = "---請選擇縣市---"
+                    option2.setAttribute('selected', '');
+                    citySelect.add(option2, 0);
+                    let opt0 = document.createElement('option');
+                    opt0.value = '';
+                    opt0.text = '---請選擇行政區---';
+                    districtSelect.add(opt0, null);
+                })
+                .catch(ex => {
+                    console.log("錯誤訊息" + ex);
+                })
+        }
+        window.onload = GetAddressJSON;
+        citySelect.onchange = citySelectChange;
+        function citySelectChange(event) {
+            console.log(citySelect.selectedOptions[0]);
+            selectedCityValue = citySelect.selectedOptions[0].value;
+            selectedCityText = citySelect.selectedOptions[0].text;
+            // console.log(event.target);
+            // debugger;
+            let districtArray = zipcodeArray.find(c => c.City == selectedCityText).Districts;
+            // console.log(districtArray);
+            districtSelect.innerHTML = "";
+            let opt0 = $c('option');
+            opt0.value = -1;
+            opt0.text = '---請選擇行政區---';
+            districtSelect.add(opt0, null);
+            districtArray.forEach((item, index) => {
+                let option1 = $c('option');
+                option1.value = districtArray[index].ZipCode;
+                option1.text = districtArray[index].District;
+                districtSelect.add(option1, null);
+            });
+        }
+        districtSelect.addEventListener('change', function () {
+            $g("#msg").textContent = citySelect.selectedOptions[0].text + "," + districtSelect.selectedOptions[0].text;
+        });
+/*         function submitData(){
+            let formData = new FormData();
+            formData.append('City',citySelect.selectedOptions[0].text);
+            formData.append('District',districtSelect.selectedOptions[0].text);
+
+            let xhr = new XMLHttpRequest();
+            xht.open('POST','https://www.codemagic.com.tw');
+            xht.send(formData);
+
+        } */
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+</body>
+</html>
