@@ -11,10 +11,11 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <title>Address</title>
+    
 </head>
-<!-- class="d-flex mx-auto" -->
+
 <body>
-    <h3 >Taiwan Address / Zip Code</h3>
+    <h3 class="d-flex justify-content-center">Taiwan Address / Zip Code</h3>
     <div id="msg">
         <template id="tempaleTitle">
             <tr>
@@ -41,8 +42,9 @@
         _table.appendChild(_tbody);
         _body.appendChild(_table);
         _table.setAttribute("border", "2");
-        _body.classList.add('d-flex','justify-content-center','w-100');
-        // _table.addL
+        _table.classList.add('table-active', 'w-35','mx-auto');
+        // _body.classList.add('d-flex','justify-content-center','w-100');
+        
         // let _tr = document.createElement('tr');
         // let _td = document.createElement('td');
         function addHead(){
