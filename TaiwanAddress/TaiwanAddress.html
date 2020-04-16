@@ -43,12 +43,6 @@
         _body.appendChild(_table);
         _table.classList.add('table','w-50','mx-auto');
         _table.classList.add('table-bordered');
-        // _table.setAttribute("border", "2");
-        // _table.classList.add('table-active', 'w-35','mx-auto');
-        // _body.classList.add('d-flex','justify-content-center','w-100');
-        
-        // let _tr = document.createElement('tr');
-        // let _td = document.createElement('td');
         function addHead(){
             let title = document.getElementById('tempaleTitle');
             _thead.appendChild(title.content);
@@ -91,8 +85,9 @@
                     msg.textContent = '發生錯誤 , HTTP response代碼:' + xhr.status;
                 }
             }
-            // xhr.open("GET", "https://raw.githubusercontent.com/Judyjou/js/master/fileStorge/TaiwanAddress.json");
-            xhr.open("GET", "http://127.0.0.1:5501/TaiwanAddress/TaiwanAddress.json");
+            
+            // xhr.open("GET", "http://127.0.0.1:5501/TaiwanAddress/TaiwanAddress.json");
+            xhr.open("GET", "https://raw.githubusercontent.com/Judyjou/js/master/TaiwanAddress/TaiwanAddress.json");
             xhr.send();
         }
     </script>
