@@ -86,12 +86,13 @@
                     let _h5 = document.createElement('h5');
                     _h5.textContent = response[role].name;
                     _div.appendChild(_h5);
+                    // _div.classList.add('view overlay zoom');
                     // _div.appendChild(_span);
                     // _everyone.textContent = response[role].name;
                     for (let pics in response[role]){
                         if (pics == 'icon'){
                             let _img = document.createElement('img');
-                            _img.src=response[role]['icon'];
+                            _img.src=response[role]['icon'];                            
                             _div.appendChild(_img);
                             _img.addEventListener('click',showInfo);
                             function showInfo(){
