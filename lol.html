@@ -83,8 +83,10 @@
                                 _roleInfo.textContent = '';
                                 _roleName.textContent=response[role].name;
                                 for (let ele in response[role].stats){
+                                    // debugger;
                                    let _p = document.createElement('p');
                                    _p.innerText = (`${ele}:${response[role].stats[ele]}`);
+    
                                    _roleInfo.appendChild(_p); 
                                 //    console.log(ele);
                                 }                                
