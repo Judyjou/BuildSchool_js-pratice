@@ -62,55 +62,127 @@
         console.log(_nowDay);
         _dayOfWeek = _nowTime.getDay();
         console.log(_dayOfWeek);
+
         var _month = _nowTime.getMonth();
+        // var _month = _nowTime.getMonth()+1;
         console.log(_month);
         var _year = _nowTime.getFullYear();
         console.log(_year);
-        var _lastMonthDay = new Date(_year, _month, 0).getDate();
+        var _lastMonthDay = new Date(_year, _month, 0);
         console.log(_lastMonthDay);
-        var _firstMonthDay = new Date(_year,_month,1); 
+        var _firstMonthDay = new Date(_year, _month, 1);
         console.log(_firstMonthDay);
+        var _tbody = document.getElementById('date');
+
         var _monthEnglish = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        
         month.innerHTML = _year + ' ' + _monthEnglish[_month];
+        // debugger;
+        setday()        
         var _lastMonth = document.getElementById('lastMonth');
         _lastMonth.addEventListener('click', lastMonth);
         function lastMonth() {
-            // debugger;             
+            // debugger;           
             if (_month == 0) {
-                _month = 11; 
+                _month = 11;
                 _year = _year - 1;
                 month.innerHTML = _year + ' ' + _monthEnglish[_month];
+
             } else {
                 _month = _month - 1;
                 console.log(_month);
                 month.innerHTML = _year + ' ' + _monthEnglish[_month];
             }
+            _tbody.innerText='';
+            setday();
         }
+
         var _nextMonth = document.getElementById('nextMonth');
         _nextMonth.addEventListener('click', nextMonth);
-        function nextMonth(){
-            if (_month ==11){
+        function nextMonth() {
+            if (_month == 11) {
                 _month = 0;
-                _year =_year+1;
-                month.innerHTML = _year + ' ' + _monthEnglish[_month]; 
+                _year = _year + 1;
+                month.innerHTML = _year + ' ' + _monthEnglish[_month];
             }
-            else{
-                _month=_month+1;
+            else {
+                _month = _month + 1;
                 console.log(_month);
-                month.innerHTML = _year + ' ' + _monthEnglish[_month];    
+                month.innerHTML = _year + ' ' + _monthEnglish[_month];
             }
-        } 
-        
-        // let       
-        for(let row =0; row<5; row++){
-            let _tr = document.createElement('tr');
-            for (let days = 0; days<7; days++){
-                let _td = document.createElement('td');
-                let _li = document.createElement('li');
-                _tr.appendChild(_td);
+            _tbody.innerText='';
+            setday();
+        }
 
+
+
+        function setday() {
+            var _firstMonthDay = new Date(_year, _month, 1);
+            var _firstDay = _firstMonthDay.getDay();
+            console.log(_firstDay);
+
+            var _lastDay = new Date(_year, _month + 1, 0).getDate();
+            console.log(_lastDay);
+
+            var cal = 1;
+            let _tr = document.createElement('tr');
+            for (let weekly = 0; weekly < 7; weekly++) {
+                let _td = document.createElement('td');
+                if (weekly >= _firstDay) {
+                    _td.innerText = cal;
+                    cal++;
+                }
+                _tr.appendChild(_td);
+            }
+            _tbody.appendChild(_tr);
+
+            //console.log(cal)
+            //console.log(Math.ceil((_lastDay-cal+1)/7));
+            var rows = Math.ceil((_lastDay - cal + 1) / 7);
+            for (let row = 0; row < rows; row++) {
+                let _tr = document.createElement('tr');
+                for (let days = 0; days < 7; days++) {
+                    let _td = document.createElement('td');
+                    if (cal <= _lastDay) {
+                        _td.innerText = cal;
+                    }
+                    cal++;
+                    _tr.appendChild(_td);
+                }
+                _tbody.appendChild(_tr);
             }
         }
+
+
+        // var cal = 1;
+        // let _tr = document.createElement('tr');
+        // for (let weekly = 0; weekly < 7; weekly++) {
+        //     let _td = document.createElement('td');
+        //     if (weekly >= _firstDay) {
+        //         _td.innerText = cal;
+        //         cal++;
+        //     }
+        //     _tr.appendChild(_td);
+        // }
+        // _tbody.appendChild(_tr);
+
+        // //console.log(cal)
+        // //console.log(Math.ceil((_lastDay-cal+1)/7));
+        // var rows = Math.ceil((_lastDay-cal+1)/7);
+        // for (let row = 0; row < rows; row++) {        
+        //     let _tr = document.createElement('tr');
+        //     for (let days = 0; days < 7; days++) {
+        //         let _td = document.createElement('td');
+        //             if(cal<=_lastDay){
+        //                 _td.innerText = cal;
+        //             }                
+        //         cal++;
+        //         _tr.appendChild(_td);
+        //     }
+        //     _tbody.appendChild(_tr);
+        // }
+
+
     </script>
 
     <!-- Optional JavaScript -->
