@@ -1,0 +1,35 @@
+	//增加資料
+        //localStorage.setItem();
+        //讀取事件
+        //localStorage.getItem();
+
+
+
+
+        // var cal = 1;
+        // let _tr = document.createElement('tr');
+        // for (let weekly = 0; weekly < 7; weekly++) {
+        //     let _td = document.createElement('td');
+        //     if (weekly >= _firstDay) {
+        //         _td.innerText = cal;
+        //         cal++;
+        //     }
+        //     _tr.appendChild(_td);
+        // }
+        // _tbody.appendChild(_tr);
+
+        // //console.log(cal)
+        // //console.log(Math.ceil((_lastDay-cal+1)/7));
+        // var rows = Math.ceil((_lastDay-cal+1)/7);
+        // for (let row = 0; row < rows; row++) {        
+        //     let _tr = document.createElement('tr');
+        //     for (let days = 0; days < 7; days++) {
+        //         let _td = document.createElement('td');
+        //             if(cal<=_lastDay){
+        //                 _td.innerText = cal;
+        //             }                
+        //         cal++;
+        //         _tr.appendChild(_td);
+        //     }
+        //     _tbody.appendChild(_tr);
+        // }

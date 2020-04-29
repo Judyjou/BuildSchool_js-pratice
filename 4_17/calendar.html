@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="../fontawesome-free-5.12.1-web/css/all.css">
-    <title>Hello calendar</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <title>Hey calendar</title>
     <style>
         body {
             font-family: 'Microsoft JhengHei';
@@ -23,6 +25,33 @@
         th {
             background-color: #FAF0E6;
         }
+
+        td {
+            width: 70px;
+            height: 100px;
+            text-align: left;
+        }
+        td:hover{
+            background-color: #FAF0E6;
+        }
+       
+
+        td, ::after, ::before {
+            box-sizing: unset;
+        }
+        .modal-header{
+            background-color: #FAF0E6;
+        }
+        #event{
+            color: #fc8c23;
+            border-color: #fc8c23;            
+        }
+        #event:hover{
+            color: #000;
+            
+            background: #FAF0E6;
+        }
+        
     </style>
 </head>
 
@@ -35,7 +64,7 @@
                         class="fas fa-chevron-left"></i></button>
                 <h3 id="month">month </h3>
                 <button type="button" class="btn btn-light" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
-                <button type="button" class="btn btn-outline-primary btn-sm ml-4">新增事件</button>
+                <button type="button" class="btn btn-outline-primary btn-sm ml-4" id="event">新增事件</button>
             </div>
         </div>
         <div class="row mt-2">
@@ -53,32 +82,71 @@
             </table>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addEvents" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">新增事件</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="from-group">
+                        <label for="">
+                            <input type="text" class="form-control" id="addTitle" placeholder='輸入事件標題'>
+                        </label>
+                        <label for="">
+                            <input id="addDate" type="date" class="form-control">
+                        </label>
+                        <label for=""></label>
+                        <input id="addColor" type="color">
+                    </div>
+
+                    <div class="from-group" id="moreInfo">
+                        <label class="col-from-lable"> 詳細內容</label>
+                        <textarea id="addContext" class="form-control"></textarea>
+                    </div>
+                    <!-- <div class="from-group">
+                        <label for="">Google Map</label>
+                        <div id="map"></div>
+                    </div> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-success" id="finish">完成</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         var month = document.getElementById('month');
         var _nowTime = new Date();
-        console.log(_nowTime);
+        //console.log(_nowTime);
         var _nowDay = _nowTime.getDate();
-        console.log(_nowDay);
+        //console.log(_nowDay);
         _dayOfWeek = _nowTime.getDay();
-        console.log(_dayOfWeek);
+        //console.log(_dayOfWeek);
 
         var _month = _nowTime.getMonth();
         // var _month = _nowTime.getMonth()+1;
-        console.log(_month);
+        //console.log(_month);
         var _year = _nowTime.getFullYear();
-        console.log(_year);
+        //console.log(_year);
         var _lastMonthDay = new Date(_year, _month, 0);
-        console.log(_lastMonthDay);
+        //console.log(_lastMonthDay);
         var _firstMonthDay = new Date(_year, _month, 1);
-        console.log(_firstMonthDay);
+        //console.log(_firstMonthDay);
         var _tbody = document.getElementById('date');
 
         var _monthEnglish = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        
+
         month.innerHTML = _year + ' ' + _monthEnglish[_month];
         // debugger;
-        setday()        
+        setday()
         var _lastMonth = document.getElementById('lastMonth');
         _lastMonth.addEventListener('click', lastMonth);
         function lastMonth() {
@@ -90,10 +158,10 @@
 
             } else {
                 _month = _month - 1;
-                console.log(_month);
+                //console.log(_month);
                 month.innerHTML = _year + ' ' + _monthEnglish[_month];
             }
-            _tbody.innerText='';
+            // _tbody.innerText = '';
             setday();
         }
 
@@ -107,29 +175,44 @@
             }
             else {
                 _month = _month + 1;
-                console.log(_month);
+                //console.log(_month);
                 month.innerHTML = _year + ' ' + _monthEnglish[_month];
             }
-            _tbody.innerText='';
+            // _tbody.innerText = '';
             setday();
         }
 
-
-
         function setday() {
+            _tbody.innerText = '';
             var _firstMonthDay = new Date(_year, _month, 1);
             var _firstDay = _firstMonthDay.getDay();
-            console.log(_firstDay);
+            //console.log(_firstDay);
 
             var _lastDay = new Date(_year, _month + 1, 0).getDate();
-            console.log(_lastDay);
-
+            //console.log(_lastDay); 
             var cal = 1;
             let _tr = document.createElement('tr');
             for (let weekly = 0; weekly < 7; weekly++) {
                 let _td = document.createElement('td');
                 if (weekly >= _firstDay) {
                     _td.innerText = cal;
+                    console.log(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
+                    
+                    if (localStorage.getItem(`${_year}-${_month + 1}-${cal}`) != null) {
+                        let _scheduleObj = JSON.parse(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
+                        let _ul = document.createElement('ul');
+                        _scheduleObj.forEach(element => {
+                            let _li = document.createElement('li');
+                            let _span = document.createElement('span');
+                            _li.style.color = element.Color;
+                            _span.innerText = element.Title;
+                            _span.style.color = '#000000';
+                            _span.innerText = element.Title;
+                            _li.appendChild(_span);
+                            _ul.appendChild(_li);
+                        });
+                        _td.appendChild(_ul);
+                    }
                     cal++;
                 }
                 _tr.appendChild(_td);
@@ -145,6 +228,23 @@
                     let _td = document.createElement('td');
                     if (cal <= _lastDay) {
                         _td.innerText = cal;
+                        console.log(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
+                        if (localStorage.getItem(`${_year}-${_month + 1}-${cal}`) != null) {
+                            let _scheduleObj = JSON.parse(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
+                            let _ul = document.createElement('ul');
+                            _ul.style.width = '100%'
+                            _scheduleObj.forEach(element => {
+                                let _li = document.createElement('li');
+                                let _span = document.createElement('span');
+                                _li.style.color = element.Color;
+                                _li.style.textAlign = 'left';
+                                _span.style.color = '#000000';
+                                _span.innerText = element.Title;
+                                _li.appendChild(_span);
+                                _ul.appendChild(_li);
+                            });
+                            _td.appendChild(_ul);
+                        }
                     }
                     cal++;
                     _tr.appendChild(_td);
@@ -152,35 +252,73 @@
                 _tbody.appendChild(_tr);
             }
         }
+        var tds = document.getElementById('td');
+        var _event = document.getElementById('event');
+        _event.addEventListener('click', addEvent);
+        // tds.addEventListener('click', addEvent);
+        function addEvent() {
+            console.log('hi');
+            $('#addEvents').modal('show');
+        }
 
+        let addNewEvent = document.getElementById('finish');
+        addNewEvent.addEventListener('click', addOneEvent);
 
-        // var cal = 1;
-        // let _tr = document.createElement('tr');
-        // for (let weekly = 0; weekly < 7; weekly++) {
-        //     let _td = document.createElement('td');
-        //     if (weekly >= _firstDay) {
-        //         _td.innerText = cal;
-        //         cal++;
-        //     }
-        //     _tr.appendChild(_td);
+       
+
+        function CheckValue(){
+
+        }
+
+        // function resetAddOneEvent(){
+        //     _schedules = [
+        //             {
+        //                 Title: document.querySelector('#addTitle').value,
+        //                 Color: document.querySelector('#addColor').value,
+        //                 Context: document.querySelector('#addContext').value
+        //             }
+        //         ]
         // }
-        // _tbody.appendChild(_tr);
 
-        // //console.log(cal)
-        // //console.log(Math.ceil((_lastDay-cal+1)/7));
-        // var rows = Math.ceil((_lastDay-cal+1)/7);
-        // for (let row = 0; row < rows; row++) {        
-        //     let _tr = document.createElement('tr');
-        //     for (let days = 0; days < 7; days++) {
-        //         let _td = document.createElement('td');
-        //             if(cal<=_lastDay){
-        //                 _td.innerText = cal;
-        //             }                
-        //         cal++;
-        //         _tr.appendChild(_td);
-        //     }
-        //     _tbody.appendChild(_tr);
-        // }
+        function addOneEvent() {                        
+            //抓資料
+            let _dateVal = document.querySelector('#addDate').value.split('-');
+            console.log(_dateVal);
+            let _key = `${parseInt(_dateVal[0]).toString()}-${parseInt(_dateVal[1]).toString()}-${parseInt(_dateVal[2]).toString()}`;
+
+            let _schedules;
+            if (localStorage.getItem(_key) != null) {
+                _schedules = JSON.parse(localStorage.getItem(_key));
+                _schedules.push(
+                    {
+                        Title: document.querySelector('#addTitle').value,
+                        Color: document.querySelector('#addColor').value,
+                        Context: document.querySelector('#addContext').value
+                    }
+                )
+            }
+            else {
+                _schedules = [
+                    {
+                        Title: document.querySelector('#addTitle').value,
+                        Color: document.querySelector('#addColor').value,
+                        Context: document.querySelector('#addContext').value
+                    }
+                ]
+            }
+            localStorage.setItem(_key, JSON.stringify(_schedules));
+            setday();
+            getDay();
+            
+        }
+
+        function getDay(){
+
+            let SelectDay
+            addEvent();
+
+        }
+        
 
 
     </script>
