@@ -51,7 +51,12 @@
             
             background: #FAF0E6;
         }
-        
+        .Weekend{
+            color: #f00;            
+        }
+        .Weekend:hover{
+            background-color: rgb(250, 220, 220);
+        }
     </style>
 </head>
 
@@ -187,15 +192,18 @@
             var _firstMonthDay = new Date(_year, _month, 1);
             var _firstDay = _firstMonthDay.getDay();
             //console.log(_firstDay);
-
             var _lastDay = new Date(_year, _month + 1, 0).getDate();
             //console.log(_lastDay); 
             var cal = 1;
             let _tr = document.createElement('tr');
             for (let weekly = 0; weekly < 7; weekly++) {
                 let _td = document.createElement('td');
+                if (weekly == 0 || weekly == 6){
+                        _td.classList.add('Weekend');
+                    }
                 if (weekly >= _firstDay) {
                     _td.innerText = cal;
+                    _td.addEventListener('click',function(){$('#addEvents').modal('show');})
                     console.log(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
                     
                     if (localStorage.getItem(`${_year}-${_month + 1}-${cal}`) != null) {
@@ -226,9 +234,14 @@
                 let _tr = document.createElement('tr');
                 for (let days = 0; days < 7; days++) {
                     let _td = document.createElement('td');
+                    if (days == 0 || days == 6){
+                        _td.classList.add('Weekend');
+                    }
+                    
                     if (cal <= _lastDay) {
                         _td.innerText = cal;
-                        console.log(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
+                        _td.addEventListener('click',function(){$('#addEvents').modal('show');})
+                        // console.log(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
                         if (localStorage.getItem(`${_year}-${_month + 1}-${cal}`) != null) {
                             let _scheduleObj = JSON.parse(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
                             let _ul = document.createElement('ul');
@@ -251,13 +264,11 @@
                 }
                 _tbody.appendChild(_tr);
             }
-        }
-        var tds = document.getElementById('td');
+        }        
         var _event = document.getElementById('event');
-        _event.addEventListener('click', addEvent);
-        // tds.addEventListener('click', addEvent);
+        _event.addEventListener('click', addEvent);        
         function addEvent() {
-            console.log('hi');
+            // console.log('hi');
             $('#addEvents').modal('show');
         }
 
