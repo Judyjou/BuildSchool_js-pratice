@@ -30,6 +30,7 @@
             width: 70px;
             height: 100px;
             text-align: left;
+            font-size: 20px;
         }
         td:hover{
             background-color: #FAF0E6;
@@ -98,7 +99,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="modal-body">
                     <div class="from-group">
                         <label for="">
                             <input type="text" class="form-control" id="addTitle" placeholder='輸入事件標題'>
@@ -126,6 +127,42 @@
             </div>
         </div>
     </div>
+     <!-- Modal 2 -->
+     <div class="modal fade" id="modifyEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+     aria-hidden="true">
+     <div class="modal-dialog modal-dialog-scrollable" role="document">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <h5 class="modal-title" id="modalTitle">事件內容</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+             <div class="modal-body" id="modift-body">
+                 <div class="from-group">
+                     <label for="">
+                         <input type="text" class="form-control" id="TheTitle" placeholder='輸入事件標題'>
+                     </label>
+                     <label for="">
+                         <input readonly id="TheDate" class="form-control">
+                     </label>
+                     <label for=""></label>
+                     <input id="TheColor" type="color">
+                 </div>
+
+                 <div class="from-group" id="moreInfo">
+                     <label class="col-from-lable"> 詳細內容</label>
+                     <textarea id="TheContext" class="form-control"></textarea>
+                 </div>
+                 
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-outline-success" id="modify">修改</button>
+                 <button type="button" class="btn btn-outline-danger" id="delete">刪除</button>
+             </div>
+         </div>
+     </div>
+ </div>
 
     <script>
         var month = document.getElementById('month');
@@ -203,7 +240,7 @@
                     }
                 if (weekly >= _firstDay) {
                     _td.innerText = cal;
-                    _td.addEventListener('click',function(){$('#addEvents').modal('show');})
+                    _td.addEventListener('click',addEvent)
                     console.log(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
                     
                     if (localStorage.getItem(`${_year}-${_month + 1}-${cal}`) != null) {
@@ -239,16 +276,18 @@
                     }
                     
                     if (cal <= _lastDay) {
-                        _td.innerText = cal;
-                        _td.addEventListener('click',function(){$('#addEvents').modal('show');})
+                        _td.innerText = cal;                        
+                        _td.addEventListener('click',addEvent)                        
                         // console.log(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
                         if (localStorage.getItem(`${_year}-${_month + 1}-${cal}`) != null) {
                             let _scheduleObj = JSON.parse(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
                             let _ul = document.createElement('ul');
                             _ul.style.width = '100%'
-                            _scheduleObj.forEach(element => {
+                            _scheduleObj.forEach((element, index) => {
                                 let _li = document.createElement('li');
                                 let _span = document.createElement('span');
+                                _li.setAttribute('index', index);
+                                _span.setAttribute('index', index);
                                 _li.style.color = element.Color;
                                 _li.style.textAlign = 'left';
                                 _span.style.color = '#000000';
@@ -264,32 +303,67 @@
                 }
                 _tbody.appendChild(_tr);
             }
-        }        
+        }   
+        var totalLi = document.getElementsByTagName('li');
+        //Dom物件中不包含Array 需要一個個用for讀取取出
+        for(let li of totalLi)
+        {
+            li.addEventListener('click', modify);
+        }
+        
+        function modify(event){
+            event.stopPropagation();
+            $('#modifyEvent').modal('toggle');
+            let _TheTitle = document.getElementById('TheTitle');
+            let _TheColor = document.getElementById('TheColor');
+            let _TheContext = document.getElementById('TheContext');
+            let _TheDate = document.getElementById('TheDate');
+
+            let index =parseInt(event.target.getAttributeNode('index').value);
+            let _key =`${_year}-${_month+1}-${event.target.offsetParent.childNodes[0].data}`;
+            let _schedulesData = JSON.parse(localStorage.getItem(_key));
+            _TheTitle.value=_schedulesData[index].Title;
+            _TheColor.value=_schedulesData[index].Color;
+            _TheContext.value=_schedulesData[index].Context;
+            _TheDate.value=_key;
+
+
+
+            
+            // let index = parseInt(event.target.getAttributeNode('index').value);
+            
+            // let _key = `${_year}-${_month+1}-${event.target.offsetParent.childNodes[0].data}`;
+
+            // _scheduleData = JSON.parse(localStorage.getItem(_key));
+
+            // _TheTitle.value = _scheduleData[index].Title;
+            // _TheDate.value = _key;
+            // _TheColor.value = _scheduleData[index].Color;
+            // _TheContext.value = _scheduleData[index].Context;
+        }
+        
+
         var _event = document.getElementById('event');
         _event.addEventListener('click', addEvent);        
         function addEvent() {
             // console.log('hi');
-            $('#addEvents').modal('show');
+            let _addTitle = document.getElementById('addTitle');
+            _addTitle.value = '';
+            let _addDate = document.getElementById('addDate');
+            _addDate.value = '';
+            let _addColor =document.getElementById('addColor');
+            _addColor.value = '';
+            let _addContext = document.getElementById('addContext');
+            _addContext.value='';        
+            $('#addEvents').modal('toggle'); 
+                   
         }
 
         let addNewEvent = document.getElementById('finish');
         addNewEvent.addEventListener('click', addOneEvent);
-
        
-
-        function CheckValue(){
-
-        }
-
-        // function resetAddOneEvent(){
-        //     _schedules = [
-        //             {
-        //                 Title: document.querySelector('#addTitle').value,
-        //                 Color: document.querySelector('#addColor').value,
-        //                 Context: document.querySelector('#addContext').value
-        //             }
-        //         ]
-        // }
+        
+              
 
         function addOneEvent() {                        
             //抓資料
@@ -318,19 +392,10 @@
                 ]
             }
             localStorage.setItem(_key, JSON.stringify(_schedules));
-            setday();
-            getDay();
-            
+            setday();             
         }
 
-        function getDay(){
-
-            let SelectDay
-            addEvent();
-
-        }
-        
-
+     
 
     </script>
 
