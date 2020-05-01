@@ -175,32 +175,21 @@
     <script>
         var month = document.getElementById('month');
         var _nowTime = new Date();
-        //console.log(_nowTime);
         var _nowDay = _nowTime.getDate();
-        //console.log(_nowDay);
         _dayOfWeek = _nowTime.getDay();
-        //console.log(_dayOfWeek);
-
         var _month = _nowTime.getMonth();
-        // var _month = _nowTime.getMonth()+1;
-        //console.log(_month);
         var _year = _nowTime.getFullYear();
-        //console.log(_year);
         var _lastMonthDay = new Date(_year, _month, 0);
-        //console.log(_lastMonthDay);
         var _firstMonthDay = new Date(_year, _month, 1);
-        //console.log(_firstMonthDay);
         var _tbody = document.getElementById('date');
 
         var _monthEnglish = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
         month.innerHTML = _year + ' ' + _monthEnglish[_month];
-        // debugger;
         setday()
         var _lastMonth = document.getElementById('lastMonth');
         _lastMonth.addEventListener('click', lastMonth);
-        function lastMonth() {
-            // debugger;           
+        function lastMonth() {       
             if (_month == 0) {
                 _month = 11;
                 _year = _year - 1;
@@ -208,10 +197,8 @@
 
             } else {
                 _month = _month - 1;
-                //console.log(_month);
                 month.innerHTML = _year + ' ' + _monthEnglish[_month];
             }
-            // _tbody.innerText = '';
             setday();
         }
 
@@ -225,20 +212,16 @@
             }
             else {
                 _month = _month + 1;
-                //console.log(_month);
                 month.innerHTML = _year + ' ' + _monthEnglish[_month];
             }
-            // _tbody.innerText = '';
             setday();
         }
-
+        //長 td.li.sapn...
         function setday() {
             _tbody.innerText = '';
             var _firstMonthDay = new Date(_year, _month, 1);
             var _firstDay = _firstMonthDay.getDay();
-            //console.log(_firstDay);
             var _lastDay = new Date(_year, _month + 1, 0).getDate();
-            //console.log(_lastDay); 
             var cal = 1;
             let _tr = document.createElement('tr');
             for (let weekly = 0; weekly < 7; weekly++) {
@@ -249,8 +232,6 @@
                 if (weekly >= _firstDay) {
                     _td.innerText = cal;
                     _td.addEventListener('click', addEvent)
-                    // console.log(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
-
                     if (localStorage.getItem(`${_year}-${_month + 1}-${cal}`) != null) {
                         let _scheduleObj = JSON.parse(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
                         let _ul = document.createElement('ul');
@@ -275,8 +256,6 @@
             }
             _tbody.appendChild(_tr);
 
-            //console.log(cal)
-            //console.log(Math.ceil((_lastDay-cal+1)/7));
             var rows = Math.ceil((_lastDay - cal + 1) / 7);
             for (let row = 0; row < rows; row++) {
                 let _tr = document.createElement('tr');
@@ -285,11 +264,9 @@
                     if (days == 0 || days == 6) {
                         _td.classList.add('Weekend');
                     }
-
                     if (cal <= _lastDay) {
                         _td.innerText = cal;
-                        _td.addEventListener('click', addEvent)
-                        // console.log(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
+                        _td.addEventListener('click', addEvent)                        
                         if (localStorage.getItem(`${_year}-${_month + 1}-${cal}`) != null) {
                             let _scheduleObj = JSON.parse(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
                             let _ul = document.createElement('ul');
@@ -297,7 +274,6 @@
                             _scheduleObj.forEach((element, index) => {
                                 let _li = document.createElement('li');
                                 let _span = document.createElement('span');
-
                                 _li.setAttribute('index', index);
                                 _span.setAttribute('index', index);
                                 _li.style.color = element.Color;
@@ -317,12 +293,7 @@
                 _tbody.appendChild(_tr);
             }
         }
-        // var totalLi = document.getElementsByTagName('li');
-        // //Dom物件中不包含Array 需要一個個用for讀取取出
-        // for (let li of totalLi) {
-        //     li.addEventListener('click', modify);
-        // }  應該要在長完Li之後才可執行監聽事件
-
+        //修改&刪除 modal
         function modify(event) {
             event.stopPropagation();
             $('#modifyEvent').modal('toggle');
@@ -332,47 +303,42 @@
             let _TheDate = document.getElementById('TheDate');
 
             let index = parseInt(event.target.getAttributeNode('index').value);
+            console.log(index);
             let _key = `${_year}-${_month + 1}-${event.target.offsetParent.childNodes[0].data}`;
-            // console.log(_key);
             let _schedulesData = JSON.parse(localStorage.getItem(_key));
             _TheTitle.value = _schedulesData[index].Title;
             _TheColor.value = _schedulesData[index].Color;
             _TheContext.value = _schedulesData[index].Context;
             _TheDate.value = _key;
+            //修改
+            // localStorage.setItem(_key,JSON.stringify(_schedulesData))
+            // var modifyBtn = document.getElementById('modify');
+            // modifyBtn.addEventListener('click', modifyDo);
+            // function modifyDo() {
+            //     console.log('Hi');
+            //     localStorage.setItem(_key,JSON.stringify(_schedulesData))
 
-            // let index = parseInt(event.target.getAttributeNode('index').value);            
-            // let _key = `${_year}-${_month+1}-${event.target.offsetParent.childNodes[0].data}`;
-            // _scheduleData = JSON.parse(localStorage.getItem(_key));
-            // _TheTitle.value = _scheduleData[index].Title;
-            // _TheDate.value = _key;
-            // _TheColor.value = _scheduleData[index].Color;
-            // _TheContext.value = _scheduleData[index].Context;
-            localStorage.setItem(_key,JSON.stringify(_schedulesData))
-            var modifyBtn = document.getElementById('modify');
-            modifyBtn.addEventListener('click', modifyDo);
-            function modifyDo() {
-                console.log('Hi');
-                localStorage.setItem(_key,JSON.stringify(_schedulesData))
+            // }
 
-
-            }
-
+            //刪除
             var deleteBtn = document.getElementById('delete');
             deleteBtn.addEventListener('click', deleteDo);
             function deleteDo() {
-                console.log('Hey');
-                let _key = `${_year}-${_month + 1}-${event.target.offsetParent.childNodes[0].data}`;
-                localStorage.setItem(_key,JSON.stringify(_schedulesData))
-                localStorage.removeItem(this._key);
+                // console.log('Hey');
+                let _nowKey = `${_key}-${index}`; 
+                console.log(_nowKey);
+                console.log(_schedulesData[index]);
+                // localStorage.setItem(_key,JSON.stringify(_schedulesData))
+                // console.log(_schedulesData[index]);
+                // localStorage.removeItem(this._key);
+                
                 setday();
             }
         }
-
-
+        //清空新增事件modal
         var _event = document.getElementById('event');
         _event.addEventListener('click', addEvent);
         function addEvent() {
-            // console.log('hi');
             let _addTitle = document.getElementById('addTitle');
             _addTitle.value = '';
             let _addDate = document.getElementById('addDate');
@@ -382,19 +348,12 @@
             let _addContext = document.getElementById('addContext');
             _addContext.value = '';
             $('#addEvents').modal('toggle');
-            
         }
-
         let addNewEvent = document.getElementById('finish');
         addNewEvent.addEventListener('click', addOneEvent);
-
-
-
-
         function addOneEvent() {
             //抓資料
             let _dateVal = document.querySelector('#addDate').value.split('-');
-            // console.log(_dateVal);
             let _key = `${parseInt(_dateVal[0]).toString()}-${parseInt(_dateVal[1]).toString()}-${parseInt(_dateVal[2]).toString()}`;
 
             let _schedules;
