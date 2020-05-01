@@ -165,14 +165,15 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-success" id="modify">修改</button>
-                    <button type="button" class="btn btn-outline-danger" id="delete">刪除</button>
+                    <button type="button" class="btn btn-outline-success" id="modify" data-dismiss="modal">修改</button>
+                    <button type="button" class="btn btn-outline-danger" id="delete" data-dismiss="modal">刪除</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        var currentIndex;
         var month = document.getElementById('month');
         var _nowTime = new Date();
         var _nowDay = _nowTime.getDate();
@@ -189,7 +190,7 @@
         setday()
         var _lastMonth = document.getElementById('lastMonth');
         _lastMonth.addEventListener('click', lastMonth);
-        function lastMonth() {       
+        function lastMonth() {
             if (_month == 0) {
                 _month = 11;
                 _year = _year - 1;
@@ -266,7 +267,7 @@
                     }
                     if (cal <= _lastDay) {
                         _td.innerText = cal;
-                        _td.addEventListener('click', addEvent)                        
+                        _td.addEventListener('click', addEvent)
                         if (localStorage.getItem(`${_year}-${_month + 1}-${cal}`) != null) {
                             let _scheduleObj = JSON.parse(localStorage.getItem(`${_year}-${_month + 1}-${cal}`));
                             let _ul = document.createElement('ul');
@@ -301,39 +302,46 @@
             let _TheColor = document.getElementById('TheColor');
             let _TheContext = document.getElementById('TheContext');
             let _TheDate = document.getElementById('TheDate');
-
             let index = parseInt(event.target.getAttributeNode('index').value);
-            console.log(index);
+            currentIndex = index;            
             let _key = `${_year}-${_month + 1}-${event.target.offsetParent.childNodes[0].data}`;
             let _schedulesData = JSON.parse(localStorage.getItem(_key));
             _TheTitle.value = _schedulesData[index].Title;
             _TheColor.value = _schedulesData[index].Color;
             _TheContext.value = _schedulesData[index].Context;
             _TheDate.value = _key;
-            //修改
-            // localStorage.setItem(_key,JSON.stringify(_schedulesData))
-            // var modifyBtn = document.getElementById('modify');
-            // modifyBtn.addEventListener('click', modifyDo);
-            // function modifyDo() {
-            //     console.log('Hi');
-            //     localStorage.setItem(_key,JSON.stringify(_schedulesData))
-
-            // }
-
-            //刪除
-            var deleteBtn = document.getElementById('delete');
-            deleteBtn.addEventListener('click', deleteDo);
-            function deleteDo() {
-                // console.log('Hey');
-                let _nowKey = `${_key}-${index}`; 
-                console.log(_nowKey);
-                console.log(_schedulesData[index]);
-                // localStorage.setItem(_key,JSON.stringify(_schedulesData))
-                // console.log(_schedulesData[index]);
-                // localStorage.removeItem(this._key);
-                
-                setday();
-            }
+        }
+        //修改 
+        var modifyBtn = document.getElementById('modify');
+        modifyBtn.addEventListener('click', modifyDo);
+        function modifyDo() {
+            let _key = document.querySelector('#modift-body #TheDate').value;
+            let _Titles = document.querySelector('#modift-body #TheTitle').value;
+            let _Colors = document.querySelector('#modift-body #TheColor').value;
+            let _Contexts = document.querySelector('#modift-body #TheContext').value;
+            let _schedulesDatas = JSON.parse(localStorage.getItem(_key));
+            console.log(_key);
+            console.log(_Titles);
+            console.log(_Colors);
+            console.log(_Contexts);
+            _schedulesDatas[currentIndex] = 
+            {
+                Title: _Titles,
+                Color: _Colors,
+                Context: _Contexts
+            };
+            localStorage.setItem(_key, JSON.stringify(_schedulesDatas));
+            setday();            
+        }
+        //刪除
+        var deleteBtn = document.getElementById('delete');
+        deleteBtn.addEventListener('click', deleteDo);
+        function deleteDo() {
+            let _keys = document.querySelector('#modift-body #TheDate').value;
+            let _schedulesDatas = JSON.parse(localStorage.getItem(_keys));
+            _schedulesDatas.splice(currentIndex, 1);
+            localStorage.setItem(_keys, JSON.stringify(_schedulesDatas));
+            setday();
         }
         //清空新增事件modal
         var _event = document.getElementById('event');
